@@ -12,7 +12,7 @@ class SolucionadorLab:
         cola = [[inicio]]
 
         if inicio not in self.grafo or fin not in self.grafo:
-            return None  # No se puede resolver si el inicio o el fin no están en el grafo
+            return None  # No se puede resolver si el inicio o el fin no estan en el grafo
 
         while cola:
             camino = cola.pop(0)
@@ -30,13 +30,20 @@ class SolucionadorLab:
 
                 visitados.add(nodo_actual)
 
-        return None  # No se encontró un camino
+        return None  # No se encontro un camino
 
-# Funcion para mostrar el laberinto
-def mostrar_laberinto(laberinto):
-    print("\nLaberinto:")
-    for interseccion, conexiones in laberinto.grafo.items():
-        print(str(interseccion) + str(conexiones))
+    # Funcion para mostrar el laberinto
+    def mostrar_laberinto(self):
+        nodos = list(self.grafo.keys())  # Obtener todos los nodos del grafo
+        nodos.sort()  # Ordenar los nodos alfabéticamente para imprimir la matriz de manera ordenada
+
+        # Imprimir la primera fila con los nombres de los nodos
+        print("    " + "   ".join(nodos))
+
+        # Imprimir la matriz de adyacencia
+        for nodo in nodos:
+            fila = [str(int(nodo_destino in self.grafo[nodo])) for nodo_destino in nodos]
+            print(f"{nodo} | {'   '.join(fila)}")
 
 
 laberinto = SolucionadorLab()
@@ -54,15 +61,15 @@ while True:
     print("3. Mostrar laberinto\n")
     print("4. Salir\n")
 
-    eleccion = input("\nDigite su elección: ")
+    eleccion = input("\nDigite su eleccion: ")
 
     if int(eleccion) == 1: # Ingresar laberinto
         while True:
-            interseccion = input("\nIngrese la intersección (o 'fin' para terminar): ")
+            interseccion = input("\nIngrese la interseccion (o 'fin' para terminar): ")
             if interseccion.lower() == 'fin':
                 break
 
-            conexiones = input("Ingrese los nodos hermanos (separadas por coma): ").split(',')
+            conexiones = input("Ingrese los nodos vecinos (separadas por coma): ").split(',')
             laberinto.agregar_interseccion(interseccion, conexiones)
 
         input("\nLaberinto ingresado. Presione Enter para continuar... ")
@@ -76,7 +83,7 @@ while True:
             print("No hay camino posible.")
         input("\nPresione Enter para continuar... ")
     elif int(eleccion) == 3: # Mostrar laberinto
-        mostrar_laberinto(laberinto)
+        laberinto.mostrar_laberinto()
         input("\nPresione Enter para continuar... ")
     elif int(eleccion) == 4:
         print("\nSaliendo del sistema. ¡Hasta luego!")
